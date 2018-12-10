@@ -11,13 +11,19 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::resource('/', 'PostController', ['only' => ['index', 'show']]);
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('admin/posts', 'Admin\\PostsController');
-Route::resource('admin/post', 'Admin\\PostController');
+Route::group(['middleware' => ['auth']], function () {
+
+    Route::get('admin', function () {
+        return redirect('admin/post');
+    });
+
+    Route::resource('admin/user', 'Admin\UserController', ['only' => ['index', 'update']]);
+
+    Route::resource('admin/post', 'Admin\PostController');
+});

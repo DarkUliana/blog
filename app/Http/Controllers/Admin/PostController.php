@@ -21,11 +21,13 @@ class PostController extends Controller
         $perPage = 25;
 
         if (!empty($keyword)) {
+
             $post = Post::where('image', 'LIKE', "%$keyword%")
                 ->orWhere('title', 'LIKE', "%$keyword%")
                 ->orWhere('text', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage);
         } else {
+
             $post = Post::latest()->paginate($perPage);
         }
 
@@ -37,9 +39,10 @@ class PostController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('admin.post.create');
+        $user = $request->user();
+        return view('admin.post.create', compact('user'));
     }
 
     /**
@@ -51,9 +54,10 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $requestData = $request->all();
-                if ($request->hasFile('image')) {
+        if ($request->hasFile('image')) {
+
             $requestData['image'] = $request->file('image')
                 ->store('uploads', 'public');
         }
@@ -66,7 +70,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\View\View
      */
@@ -80,30 +84,31 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $post = Post::findOrFail($id);
+        $user = $request->user();
 
-        return view('admin.post.edit', compact('post'));
+        return view('admin.post.edit', compact('post', 'user'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update(Request $request, $id)
     {
-        
+
         $requestData = $request->all();
-                if ($request->hasFile('image')) {
+        if ($request->hasFile('image')) {
             $requestData['image'] = $request->file('image')
                 ->store('uploads', 'public');
         }
@@ -117,7 +122,7 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */

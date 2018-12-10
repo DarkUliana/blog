@@ -12,72 +12,11 @@ use Dlnsk\HierarchicalRBAC\Authorization;
 class AuthorizationClass extends Authorization
 {
 	public function getPermissions() {
-		return [
-            'update-user' => [
-                'description' => 'Редактирование любых статей',
-                'next' => 'update-own-post',
-            ],
-            'create-post' => [
-                'description' => 'Редактирование собственных статей',
-                'next' => 'update-comment',
-            ],
-            'create-comment' => [
-                'description' => '',
-
-            ],
-
-            'delete-post' => [
-                'description' => '',
-                'equal' => 'update-user',
-            ],
-            'update-post' => [
-                'description' => '',
-                'equal' => 'update-user',
-            ],
-            'update-comment' => [
-                'description' => '',
-                'equal' => 'update-user',
-            ],
-            'delete-comment' => [
-                'description' => '',
-                'equal' => 'update-user',
-            ],
-            'update-own-post' => [
-                'description' => '',
-                'equal' => 'create-post',
-            ],
-            'delete-own-post' => [
-                'description' => '',
-                'equal' => 'create-post',
-            ],
-            'update-own-comment' => [
-                'description' => '',
-                'equal' => 'create-post',
-            ],
-            'delete-own-comment' => [
-                'description' => '',
-                'equal' => 'create-post',
-            ],
-
-
-		];
+		return config('roles.roles');
 	}
 
 	public function getRoles() {
-		return [
-            'admin' => [
-                'update-user',
-
-            ],
-            'editor' => [
-                'create-post',
-
-            ],
-            'user' => [
-                'create-comment',
-
-            ],
-		];
+		return config('roles.permissions');
 	}
 
 
