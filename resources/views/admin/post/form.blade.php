@@ -3,15 +3,6 @@
     <input class="custom-file-input" name="image" type="file" id="image" value="{{ isset($post) ? $post->image : ''}}" >
     {!! $errors->first('image', '<p class="help-block">:message</p>') !!}
 </div>
-<script>
-    $(document).ready(function () {
-        $('#image').on('change', function(){
-            var fileName = $(this).val();
-            var shortName = fileName.substring(fileName.lastIndexOf('\\')+1);
-            $(this).siblings('.custom-file-label').html(shortName);
-        });
-    });
-</script>
 <div class="form-group {{ $errors->has('title') ? 'has-error' : ''}}">
     <label for="title" class="control-label">{{ 'Title' }}</label>
     <input class="form-control" name="title" type="text" id="title" value="{{ isset($post) ? $post->title : ''}}" maxlength="255">

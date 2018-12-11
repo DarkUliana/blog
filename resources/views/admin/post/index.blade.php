@@ -40,7 +40,7 @@
                                 <tbody>
                                 @foreach($post as $item)
                                     <tr>
-                                        <td>{{ $loop->iteration or $item->id }}</td>
+                                        <td>{{ $item->id }}</td>
                                         <td>{{ $item->title }}</td>
                                         <td>
                                             <a href="{{ url('/admin/post/' . $item->id) }}" title="View Post">
