@@ -23,6 +23,7 @@
 
                         <form method="POST" action="{{ url('/admin/post') }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
                             {{ csrf_field() }}
+                            <input type="hidden" name="user_id" value="{{ $user->id }}">
 
                             @include ('admin.post.form', ['formMode' => 'create'])
 

@@ -14,7 +14,7 @@ class AddRoleFieldToUsers extends Migration
 	{
 		Schema::table('users', function(Blueprint $table)
 		{
-			$table->string('role')->after('remember_token')->default('user');
+			$table->string('role')->after('remember_token');
 		});
 	}
 

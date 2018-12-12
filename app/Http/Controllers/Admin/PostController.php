@@ -56,16 +56,17 @@ class PostController extends Controller
     {
 
         $this->validate($request, [
-            'image' => 'required|file|mimes:image/jpeg,image/png',
+            'image' => 'required|file|mimes:jpeg,jpg,bmp,png',
             'title' => 'required|string|max:255',
+            'short' => 'required|string|max:65535',
             'text' => 'required|string|max:65535',
             'user_id' => 'required|integer|exists:users,id'
         ]);
         $requestData = $request->all();
         if ($request->hasFile('image')) {
 
-            $requestData['image'] = $request->file('image')
-                ->store('uploads', 'public');
+            $requestData['image'] = '/storage/' . $request->file('image')
+                    ->store('images', 'public');
         }
 
         Post::create($requestData);
@@ -112,11 +113,16 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        $this->validate($request, [
+            'image' => 'file|mimes:jpeg,jpg,bmp,png',
+            'title' => 'required|string|max:255',
+            'short' => 'required|string|max:65535',
+            'text' => 'required|string|max:65535',
+        ]);
         $requestData = $request->all();
         if ($request->hasFile('image')) {
-            $requestData['image'] = $request->file('image')
-                ->store('uploads', 'public');
+            $requestData['image'] = '/storage/' . $request->file('image')
+                    ->store('images', 'public');
         }
 
         $post = Post::findOrFail($id);

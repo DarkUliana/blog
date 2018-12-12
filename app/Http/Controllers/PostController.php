@@ -10,10 +10,10 @@ class PostController extends Controller
 {
     public function index()
     {
-        $perPage = 5;
+        $perPage = 6;
         $posts = Post::latest()->paginate($perPage);
 
-        return view('main', compact($posts));
+        return view('main', compact('posts'));
     }
 
     public function show($id)

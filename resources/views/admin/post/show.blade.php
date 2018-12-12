@@ -50,6 +50,10 @@
                                     <td> {{ $post->title }} </td>
                                 </tr>
                                 <tr>
+                                    <th> Short</th>
+                                    <td> {{ $post->short }} </td>
+                                </tr>
+                                <tr>
                                     <th> Text</th>
                                     <td> {{ $post->text }} </td>
                                 </tr>

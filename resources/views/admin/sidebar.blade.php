@@ -1,4 +1,4 @@
-<div class=col-md-3" id="sidebar">
+<div class="col-md-3">
     <div class="card">
         <div class="card-header">
             Sidebar
