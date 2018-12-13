@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -119,13 +120,16 @@ class PostController extends Controller
             'short' => 'required|string|max:65535',
             'text' => 'required|string|max:65535',
         ]);
+
         $requestData = $request->all();
+        $post = Post::findOrFail($id);
+
         if ($request->hasFile('image')) {
-            $requestData['image'] = '/storage/' . $request->file('image')
-                    ->store('images', 'public');
+
+            $requestData['image'] = $request->file('image')->store('images', 'public');
+            Storage::delete($post->image);
         }
 
-        $post = Post::findOrFail($id);
         $post->update($requestData);
 
         return redirect('admin/post')->with('flash_message', 'Post updated!');

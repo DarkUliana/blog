@@ -26,4 +26,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('admin/user', 'Admin\UserController', ['only' => ['index', 'update']]);
 
     Route::resource('admin/post', 'Admin\PostController');
+
+
 });
