@@ -11,7 +11,8 @@
 |
 */
 
-Route::resource('/', 'PostController', ['only' => ['index', 'show']]);
+Route::get('/', 'PostController@index');
+Route::get('/{id}', 'PostController@show')->where('id', '[0-9]');
 
 Auth::routes();
 
@@ -26,6 +27,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('admin/user', 'Admin\UserController', ['only' => ['index', 'update']]);
 
     Route::resource('admin/post', 'Admin\PostController');
+
+    Route::resource('comment', 'CommentController', ['except' => 'index', 'show']);
 
 
 });

@@ -13,4 +13,9 @@ class Post extends Model
     {
         return Storage::url($value);
     }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
 }
