@@ -29,7 +29,6 @@ $(document).on('change', '#image', function () {
 });
 
 
-
 $(document).on('click', '.edit-comment', function () {
 
     $(this).addClass('d-none');
@@ -51,31 +50,29 @@ $(document).on('click', '.edit-comment', function () {
 });
 
 
-{
-    $('.update-comment').on('click', function (e) {
+$(document).on('click', '.update-comment', function (e) {
 
 
-        e.preventDefault();
+    e.preventDefault();
 
-        var form = $(this).closest('form');
-        var text = form.find('textarea').val();
-        var comment = form.closest('.col-12');
-        var id = comment.data('id');
-        var data = form.serialize();
+    var form = $(this).closest('form');
+    var text = form.find('textarea').val();
+    var comment = form.closest('.col-12');
+    var id = comment.data('id');
+    var data = form.serialize();
 
-        $.ajax({
-            url: 'comment/' + id,
-            method: 'PATCH',
-            data: data,
-            success: function () {
+    $.ajax({
+        url: 'comment/' + id,
+        method: 'PATCH',
+        data: data,
+        success: function () {
 
-                comment.find('span').text(text);
-                form.remove();
-                comment.find('.edit-comment').removeClass('d-none');
-            }
-        });
+            comment.find('span').text(text);
+            form.remove();
+            comment.find('.edit-comment').removeClass('d-none');
+        }
     });
-}
+});
 
 
 $(document).on('click', '.answer-comment', function () {
@@ -108,14 +105,14 @@ $(document).on('click', '.comment-form, .answer-form', function (e) {
     var form = button.closest('form');
     var data = form.serialize();
 
-    var before;
+    var point;
 
     if (button.hasClass('answer-form')) {
 
-        before = button.closest('.col-12');
+        point = button.closest('.col-12');
     } else {
 
-        before = button.closest('.row');
+        point = $('#comments>.card-body>.row');
     }
 
 
@@ -127,17 +124,20 @@ $(document).on('click', '.comment-form, .answer-form', function (e) {
 
             if (button.hasClass('answer-form')) {
 
-                before.find('.answer-comment').removeClass('d-none');
+                point.find('.answer-comment').removeClass('d-none');
                 form.remove();
+                point.after(data);
+                var level = point.data('level');
+                point.next().removeClass('tab-0');
+                point.next().addClass('tab-' + (level + 1));
+                point.next().data('level', level + 1);
             } else {
 
-                form.find('textarea').empty();
+                form.find('textarea').val('');
+                point.append(data);
             }
 
-            before.after(data);
-            var level = before.data('level');
-            before.next().addClass('tab-' + (level + 1));
-            before.next().data('level', level + 1);
+
 
         }
     });

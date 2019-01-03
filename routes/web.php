@@ -18,7 +18,7 @@ Auth::routes();
 
 //Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth', 'can:create,App\Post']], function () {
 
     Route::get('admin', function () {
         return redirect('admin/post');

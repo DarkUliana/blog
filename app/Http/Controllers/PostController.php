@@ -4,14 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use App\Post;
+use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+
+//        $this->authorize('create-post');
+
         $perPage = 6;
         $posts = Post::latest()->paginate($perPage);
+//        dd($posts);
 
         return view('main', compact('posts'));
     }

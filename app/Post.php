@@ -9,11 +9,6 @@ class Post extends Model
 {
     public $guarded = [];
 
-    public function getImageAttribute($value)
-    {
-        return Storage::url($value);
-    }
-
     public function comments()
     {
         return $this->hasMany('App\Comment');

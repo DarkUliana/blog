@@ -28,10 +28,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function roles()
-    {
-        return $this->belongsToMany('App\Role');
-    }
+//    public function roles()
+//    {
+//        return $this->belongsToMany('App\Role');
+//    }
 
 //    /**
 //     * @param string|array $roles
@@ -53,12 +53,12 @@ class User extends Authenticatable
 //    {
 //        return null !== $this->roles()->whereIn('name', $roles)->first();
 //    }
-    /**
-     * Check one role
-     * @param string $role
-     */
-    public function hasRole($role)
-    {
-        return null !== $this->roles()->where('name', $role)->first();
-    }
+//    /**
+//     * Check one role
+//     * @param string $role
+//     */
+//    public function hasRole($role)
+//    {
+//        return null !== $this->roles()->where('name', $role)->first();
+//    }
 }

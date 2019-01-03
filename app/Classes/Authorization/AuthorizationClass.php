@@ -12,11 +12,14 @@ use Dlnsk\HierarchicalRBAC\Authorization;
 class AuthorizationClass extends Authorization
 {
 	public function getPermissions() {
-		return config('roles.roles');
+
+		return config('roles.permissions');
+
 	}
 
 	public function getRoles() {
-		return config('roles.permissions');
+
+		return config('roles.roles');
 	}
 
 
@@ -26,14 +29,14 @@ class AuthorizationClass extends Authorization
 	 */
 
 	public function updateOwnPost($user, $post) {
-		$post = $this->getModel(\App\Post::class, $post);  // helper method for geting model
+		$post = $this->getModel('App\Post', $post);  // helper method for geting model
 
-		return $user->id === $post->user_id;
+		return $user->id == $post->user_id;
 	}
 
     public function updateOwnComment($user, $comment) {
-        $post = $this->getModel(\App\Comment::class, $comment);  // helper method for geting model
+        $comment = $this->getModel('App\Comment', $comment);  // helper method for geting model
 
-        return $user->id === $comment->user_id;
+        return $user->id == $comment->user_id;
     }
 }

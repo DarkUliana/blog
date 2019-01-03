@@ -5,14 +5,19 @@
             <h5 style="margin-bottom: 0;">{{ $comment->user->name }}</h5>
         </div>
 
-        <div class="col-auto">
-            <a href="javascript:void(0)" class="btn-link btn-lg p-0 edit-comment">
-                <i class="fas fa-edit"></i>
-            </a>
 
-            <a href="javascript:void(0)" class="btn-link btn-lg p-0 ml-3 delete-comment">
-                <i class="fas fa-trash-alt"></i>
-            </a>
+        <div class="col-auto">
+            @can('update-own-comment', $comment)
+                <a href="javascript:void(0)" class="btn-link btn-lg p-0 edit-comment">
+                    <i class="fas fa-edit"></i>
+                </a>
+            @endcan
+
+            @can('delete-own-comment', $comment)
+                <a href="javascript:void(0)" class="btn-link btn-lg p-0 ml-3 delete-comment">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
+            @endcan
         </div>
     </div>
     <span>

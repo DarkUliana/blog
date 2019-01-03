@@ -20,7 +20,7 @@ class PostPolicy
      */
     public function view(User $user, Post $post)
     {
-        //
+        return true;
     }
 
     /**
@@ -31,7 +31,7 @@ class PostPolicy
      */
     public function create(User $user)
     {
-
+        return true;
     }
 
     /**
@@ -43,7 +43,12 @@ class PostPolicy
      */
     public function update(User $user, Post $post)
     {
-        //
+        if ($user->can('update-post') || ($user->can('update-own-post') && $user->id == $post->user_id)) {
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -53,10 +58,15 @@ class PostPolicy
      * @param  \App\Post  $post
      * @return mixed
      */
-    public function delete(User $user, Post $post)
-    {
-        //
-    }
+//    public function delete(User $user, Post $post)
+//    {
+//        if ($user->can('delete-post')) {
+//
+//            return true;
+//        }
+//
+//        return false;
+//    }
 
     /**
      * Determine whether the user can restore the post.
