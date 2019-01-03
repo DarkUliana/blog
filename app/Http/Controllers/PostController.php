@@ -20,6 +20,27 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
 
-        return view('post', compact('post'));
+        $comments = collect();
+
+        $this->recursiveComments($post->comments->where('parent_id', null), $comments);
+
+        return view('post', compact('post', 'comments'));
+    }
+
+    private function recursiveComments($comments, &$formattedComments, $level = 0) {
+
+
+        foreach ($comments as $comment) {
+
+            $comment->level = $level;
+            $formattedComments->push($comment);
+
+            if (!$comment->children->isEmpty()) {
+
+                $this->recursiveComments($comment->children, $formattedComments, $level+1);
+            }
+        }
+
+        return;
     }
 }

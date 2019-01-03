@@ -25,10 +25,15 @@ class AuthorizationClass extends Authorization
 	 * Methods should be present only if additional checking needs.
 	 */
 
-	public function editOwnPost($user, $post) {
+	public function updateOwnPost($user, $post) {
 		$post = $this->getModel(\App\Post::class, $post);  // helper method for geting model
 
 		return $user->id === $post->user_id;
 	}
 
+    public function updateOwnComment($user, $comment) {
+        $post = $this->getModel(\App\Comment::class, $comment);  // helper method for geting model
+
+        return $user->id === $comment->user_id;
+    }
 }

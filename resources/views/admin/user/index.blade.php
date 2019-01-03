@@ -47,9 +47,9 @@
                                                 {{ method_field('PATCH') }}
                                                 {{ csrf_field() }}
                                                 <select name="role" class="form-control">
-                                                    @foreach($roles as $name => $role)
-                                                        <option value="{{ $name }}"
-                                                        {{ ($item->role == $name) ? 'selected' : '' }}>{{ $name }}</option>
+                                                    @foreach($roles as $role)
+                                                        <option value="{{ $role->id }}"
+                                                        {{ ($item->hasRole($role->name)) ? 'selected' : '' }}>{{ $role->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </form>

@@ -50,7 +50,7 @@ class CommentController extends Controller
 
         $comment = Comment::findOrFail($id);
 
-        return view('comment-form', compact('comment'));
+        return view('edit-comment', compact('comment'));
     }
 
     public function update(Request $request)
@@ -65,8 +65,14 @@ class CommentController extends Controller
         return response('ok', 200);
     }
 
-    public function destroy()
+    public function destroy($id)
     {
+        if (Comment::where('parent_id', $id)->count() == 0) {
 
+            Comment::destroy($id);
+            return response('ok', 200);
+        }
+
+        return response('Can`t delete a comment that has answers', 400);
     }
 }

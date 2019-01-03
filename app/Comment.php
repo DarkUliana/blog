@@ -8,9 +8,11 @@ class Comment extends Model
 {
     public $guarded = [];
 
+    public $appends = ['level'];
+
     public function parent()
     {
-        return $this->hasOne('App\Comment', 'id', 'parent_id');
+        return $this->belongsTo('App\Comment', 'id', 'parent_id');
     }
 
     public function ratings()
@@ -21,6 +23,11 @@ class Comment extends Model
     public function user()
     {
         return $this->belongsTo('App\User');
+    }
+
+    public function children() {
+
+        return $this->hasMany('App\Comment', 'parent_id', 'id');
     }
 
 }

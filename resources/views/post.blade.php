@@ -24,7 +24,7 @@
                     <div class="card-header">Коментарі</div>
                     <div class="card-body">
                         <div class="row">
-                            @foreach($post->comments as $comment)
+                            @foreach($comments as $comment)
                                 @include('comment')
                             @endforeach
                         </div>

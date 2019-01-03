@@ -8,11 +8,12 @@ return [
         ],
         'editor' => [
             'create-post',
+            'update-own-post'
 
         ],
         'user' => [
             'create-comment',
-
+            'update-own-comment'
         ],
     ],
 
@@ -26,6 +27,14 @@ return [
         ],
         'create-comment' => [
 
+        ],
+
+        'update-own-post' => [
+            'description' => '',
+        ],
+
+        'update-own-comment' => [
+            'description' => '',
         ],
 
         'delete-post' => [
@@ -44,21 +53,15 @@ return [
             'description' => '',
             'equal' => 'update-user',
         ],
-        'update-own-post' => [
-            'description' => '',
-            'equal' => 'create-post',
-        ],
+
         'delete-own-post' => [
             'description' => '',
-            'equal' => 'create-post',
+            'equal' => 'update-own-post',
         ],
-        'update-own-comment' => [
-            'description' => '',
-            'equal' => 'create-post',
-        ],
+
         'delete-own-comment' => [
             'description' => '',
-            'equal' => 'create-post',
+            'equal' => 'update-own-comment',
         ],
 
 

@@ -1,4 +1,5 @@
-<div class="col-12 border-bottom ml-{{ $comment->level }}" data-id="{{ $comment->id }}" style="padding-bottom: 15px; margin-bottom: 15px">
+<div class="col-12 border-bottom tab-{{ $comment->level }}" data-id="{{ $comment->id }}"
+     data-level="{{ $comment->level }}" style="padding-bottom: 15px; margin-bottom: 15px">
     <div class="row justify-content-between align-items-center" style="flex-wrap: nowrap; margin-bottom: 10px">
         <div class="col-auto">
             <h5 style="margin-bottom: 0;">{{ $comment->user->name }}</h5>
@@ -14,9 +15,9 @@
             </a>
         </div>
     </div>
-
+    <span>
     {{ $comment->text }}
-
+    </span>
     <div class="row justify-content-between align-items-center" style="margin-top: 10px">
         <div class="col-auto">
             <div class="row">
