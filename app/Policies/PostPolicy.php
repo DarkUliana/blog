@@ -11,6 +11,13 @@ class PostPolicy
 {
     use HandlesAuthorization;
 
+    public function index(User $user)
+    {
+        if($user->can('create-post')) {
+            return true;
+        }
+    }
+
     /**
      * Determine whether the user can view the post.
      *
@@ -43,8 +50,9 @@ class PostPolicy
      */
     public function update(User $user, Post $post)
     {
-        if ($user->can('update-post') || ($user->can('update-own-post') && $user->id == $post->user_id)) {
+        if ($user->can('update-own-post')) {
 
+            dd($user->can('update-own-post'));
             return true;
         }
 
@@ -58,15 +66,15 @@ class PostPolicy
      * @param  \App\Post  $post
      * @return mixed
      */
-//    public function delete(User $user, Post $post)
-//    {
-//        if ($user->can('delete-post')) {
-//
-//            return true;
-//        }
-//
-//        return false;
-//    }
+    public function delete(User $user, Post $post)
+    {
+        if ($user->can('delete-post')) {
+
+            return true;
+        }
+
+        return false;
+    }
 
     /**
      * Determine whether the user can restore the post.

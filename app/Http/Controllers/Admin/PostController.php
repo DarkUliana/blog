@@ -18,6 +18,11 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
+        if($request->user()->cannot('index')) {
+
+            abort(401);
+        }
+
         $keyword = $request->get('search');
         $perPage = 25;
 
@@ -98,6 +103,10 @@ class PostController extends Controller
      */
     public function edit(Request $request, $id)
     {
+        if($request->user()->cannot('update')) {
+
+            abort(401);
+        }
         $post = Post::findOrFail($id);
         $user = $request->user();
 

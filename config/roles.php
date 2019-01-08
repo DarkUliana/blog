@@ -3,65 +3,67 @@ return [
 
     'roles' => [
         'admin' => [
-            'update-user',
-
+//            'update-user',
+//            'update-post',
+//            'delete-post',
+//            'update-comment',
+//            'delete-comment',
+//            'create-post'
+//для адміна дозволи можна не вказувати, так як ніяких провірок він не проходить, тобто йому можна все
         ],
         'editor' => [
-            'create-post',
-            'update-own-post'
-
+            'update-own-post',
+            'delete-own-post',
+            'update-own-comment',
+            'delete-own-comment',
+            'create-post'
         ],
         'user' => [
-            'create-comment',
-            'update-own-comment'
+            'update-own-comment',
+            'delete-own-comment'
         ],
     ],
 
 
     'permissions' => [
         'update-user' => [
-            'next' => 'update-own-post',
+        ],
+
+
+        'update-post' => [
+
+        ],
+        'update-own-post' => [
+            'next' => 'update-post'
         ],
         'create-post' => [
-            'next' => 'update-comment',
-        ],
-        'create-comment' => [
-
-        ],
-
-        'update-own-post' => [
-            'description' => '',
-        ],
-
-        'update-own-comment' => [
-            'description' => '',
+            'next' => 'update-own-post'
         ],
 
         'delete-post' => [
-            'description' => '',
-            'equal' => 'update-user',
+            'equal' => 'update-post'
         ],
-        'update-post' => [
-            'description' => '',
-            'equal' => 'update-user',
-        ],
-        'update-comment' => [
-            'description' => '',
-            'equal' => 'update-user',
-        ],
-        'delete-comment' => [
-            'description' => '',
-            'equal' => 'update-user',
-        ],
-
         'delete-own-post' => [
-            'description' => '',
-            'equal' => 'update-own-post',
+            'equal' => 'update-own-post'
         ],
 
+
+        'update-comment' => [
+
+        ],
+        'update-own-comment' => [
+            'next' => 'update-comment'
+        ],
+        'create-comment' => [
+            'next' => 'update-own-comment'
+        ],
+
+        'delete-comment' => [
+            'equal' => 'update-comment'
+//            'next' => 'delete-own-comment',
+        ],
         'delete-own-comment' => [
-            'description' => '',
-            'equal' => 'update-own-comment',
+            'equal' => 'update-own-comment'
         ],
 
 

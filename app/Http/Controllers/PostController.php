@@ -12,11 +12,8 @@ class PostController extends Controller
     public function index(Request $request)
     {
 
-//        $this->authorize('create-post');
-
         $perPage = 6;
         $posts = Post::latest()->paginate($perPage);
-//        dd($posts);
 
         return view('main', compact('posts'));
     }

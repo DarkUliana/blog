@@ -34,6 +34,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Title</th>
+                                    <th>Author</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
@@ -42,27 +43,34 @@
                                     <tr>
                                         <td>{{ $item->id }}</td>
                                         <td>{{ $item->title }}</td>
+                                        <td>{{ $item->user->name }}</td>
                                         <td>
                                             <a href="{{ url('/admin/post/' . $item->id) }}" title="View Post">
                                                 <button class="btn btn-primary btn-sm"><i class="fa fa-eye"
-                                                                                       aria-hidden="true"></i> View
+                                                                                          aria-hidden="true"></i> View
                                                 </button>
                                             </a>
-                                            <a href="{{ url('/admin/post/' . $item->id . '/edit') }}" title="Edit Post">
-                                                <button class="btn btn-success btn-sm"><i class="fa fa-edit"
-                                                                                          aria-hidden="true"></i> Edit
-                                                </button>
-                                            </a>
-
-                                            <form method="POST" action="{{ url('/admin/post' . '/' . $item->id) }}"
-                                                  accept-charset="UTF-8" style="display:inline">
-                                                {{ method_field('DELETE') }}
-                                                {{ csrf_field() }}
-                                                <button type="submit" class="btn btn-danger btn-sm" title="Delete Post"
-                                                        onclick="return confirm(&quot;Confirm delete?&quot;)"><i
-                                                            class="fa fa-trash" aria-hidden="true"></i> Delete
-                                                </button>
-                                            </form>
+                                            @can('update-own-post', $item)
+                                                <a href="{{ url('/admin/post/' . $item->id . '/edit') }}"
+                                                   title="Edit Post">
+                                                    <button class="btn btn-success btn-sm"><i class="fa fa-edit"
+                                                                                              aria-hidden="true"></i>
+                                                        Edit
+                                                    </button>
+                                                </a>
+                                            @endcan
+                                            @can('delete-own-post', $item)
+                                                <form method="POST" action="{{ url('/admin/post' . '/' . $item->id) }}"
+                                                      accept-charset="UTF-8" style="display:inline">
+                                                    {{ method_field('DELETE') }}
+                                                    {{ csrf_field() }}
+                                                    <button type="submit" class="btn btn-danger btn-sm"
+                                                            title="Delete Post"
+                                                            onclick="return confirm(&quot;Confirm delete?&quot;)"><i
+                                                                class="fa fa-trash" aria-hidden="true"></i> Delete
+                                                    </button>
+                                                </form>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

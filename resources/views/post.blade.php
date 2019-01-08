@@ -25,7 +25,7 @@
                     <div class="card-body">
                         <div class="row">
                             @foreach($comments as $comment)
-                                @include('comment')
+                                @include('comment', ['comment' => $comment])
                             @endforeach
                         </div>
                     </div>
