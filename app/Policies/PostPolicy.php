@@ -16,6 +16,7 @@ class PostPolicy
         if($user->can('create-post')) {
             return true;
         }
+        return false;
     }
 
     /**
@@ -27,7 +28,10 @@ class PostPolicy
      */
     public function view(User $user, Post $post)
     {
-        return true;
+        if($user->can('create-post')) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -38,7 +42,10 @@ class PostPolicy
      */
     public function create(User $user)
     {
-        return true;
+        if($user->can('create-post')) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -50,9 +57,8 @@ class PostPolicy
      */
     public function update(User $user, Post $post)
     {
-        if ($user->can('update-own-post')) {
+        if ($user->can('update-own-post', $post)) {
 
-            dd($user->can('update-own-post'));
             return true;
         }
 
@@ -68,7 +74,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post)
     {
-        if ($user->can('delete-post')) {
+        if ($user->can('delete-own-post', $post)) {
 
             return true;
         }

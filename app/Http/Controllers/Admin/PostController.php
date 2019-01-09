@@ -14,14 +14,15 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param $request
+     *
      * @return \Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index(Request $request)
     {
-        if($request->user()->cannot('index')) {
 
-            abort(401);
-        }
+        $this->authorize('index', Post::class);
 
         $keyword = $request->get('search');
         $perPage = 25;
@@ -44,9 +45,12 @@ class PostController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create(Request $request)
     {
+        $this->authorize('create', Post::class);
+
         $user = $request->user();
         return view('admin.post.create', compact('user'));
     }
@@ -57,9 +61,13 @@ class PostController extends Controller
      * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Post::class);
 
         $this->validate($request, [
             'image' => 'required|file|mimes:jpeg,jpg,bmp,png',
@@ -86,9 +94,13 @@ class PostController extends Controller
      * @param  int $id
      *
      * @return \Illuminate\View\View
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show($id)
     {
+        $this->authorize('create', Post::class);
+
         $post = Post::findOrFail($id);
 
         return view('admin.post.show', compact('post'));
@@ -100,14 +112,15 @@ class PostController extends Controller
      * @param  int $id
      *
      * @return \Illuminate\View\View
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit(Request $request, $id)
     {
-        if($request->user()->cannot('update')) {
-
-            abort(401);
-        }
         $post = Post::findOrFail($id);
+
+        $this->authorize('update', [Post::class, $post]);
+
         $user = $request->user();
 
         return view('admin.post.edit', compact('post', 'user'));
@@ -120,9 +133,16 @@ class PostController extends Controller
      * @param  int $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, $id)
     {
+        $post = Post::findOrFail($id);
+
+        $this->authorize('update', [Post::class, $post]);
+
         $this->validate($request, [
             'image' => 'file|mimes:jpeg,jpg,bmp,png',
             'title' => 'required|string|max:255',
@@ -131,7 +151,6 @@ class PostController extends Controller
         ]);
 
         $requestData = $request->all();
-        $post = Post::findOrFail($id);
 
         if ($request->hasFile('image')) {
 
@@ -150,9 +169,14 @@ class PostController extends Controller
      * @param  int $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy($id)
     {
+        $post = Post::findOrFail($id);
+        $this->authorize('delete', [Post::class, $post]);
+
         Post::destroy($id);
 
         return redirect('admin/post')->with('flash_message', 'Post deleted!');
