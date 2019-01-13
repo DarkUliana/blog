@@ -16,19 +16,17 @@ Route::get('/{id}', 'PostController@show')->where('id', '[0-9]');
 
 Auth::routes();
 
-//Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['middleware' => ['auth', 'can:create,App\Post']], function () {
+Route::group(['middleware' => ['auth']], function () {
 
     Route::get('admin', function () {
         return redirect('admin/post');
     });
-
-    Route::resource('admin/user', 'Admin\UserController', ['only' => ['index', 'update']]);
-
     Route::resource('admin/post', 'Admin\PostController');
 
     Route::resource('comment', 'CommentController', ['except' => 'index', 'show']);
-
+    Route::post('comment-rating/{id}', 'CommentController@rate');
+    Route::resource('admin/user', 'Admin\UserController', ['only' => ['index', 'update']]);
 
 });
+

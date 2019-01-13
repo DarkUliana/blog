@@ -3,12 +3,13 @@ return [
 
     'roles' => [
         'admin' => [
-//            'update-user',
-//            'update-post',
-//            'delete-post',
-//            'update-comment',
-//            'delete-comment',
-//            'create-post'
+            'update-user',
+            'update-post',
+            'delete-post',
+            'update-comment',
+            'delete-comment',
+            'create-post',
+            'rate-comment'
 //для адміна дозволи можна не вказувати, так як ніяких провірок він не проходить, тобто йому можна все
         ],
         'editor' => [
@@ -16,11 +17,16 @@ return [
             'delete-own-post',
             'update-own-comment',
             'delete-own-comment',
-            'create-post'
+            'create-post',
+            'create-comment',
+            'rate-comment'
+
         ],
         'user' => [
             'update-own-comment',
-            'delete-own-comment'
+            'delete-own-comment',
+            'create-comment',
+            'rate-comment'
         ],
     ],
 
@@ -65,6 +71,10 @@ return [
         'delete-own-comment' => [
             'equal' => 'update-own-comment'
         ],
+
+        'rate-comment' => [
+
+        ]
 
 
     ],

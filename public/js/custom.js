@@ -146,22 +146,50 @@ $(document).on('click', '.comment-form, .answer-form', function (e) {
 
 $(document).on('click', '.delete-comment', function () {
 
-    var comment = $(this).closest('.col-12');
-    var id = comment.data('id');
+    if(confirm('Do you want to delete comment?')) {
 
-    $.ajax({
-        url: 'comment/' + id,
-        method: 'DELETE',
-        success: function () {
+        var comment = $(this).closest('.col-12');
+        var id = comment.data('id');
 
-            comment.remove();
-        },
-        error: function (data) {
+        $.ajax({
+            url: 'comment/' + id,
+            method: 'DELETE',
+            success: function () {
 
-            alert(data.responseText);
-        }
-    });
+                comment.remove();
+            },
+            error: function (data) {
+
+                alert(data.responseText);
+            }
+        });
+
+    }
+
 });
 
+$(document).on('click', '.thumb-up, .thumb-down', function () {
+
+    var button = $(this);
+    var data = {rating: 1};
+    if(button.hasClass('thumb-down')) {
+
+        data.rating = -1;
+    }
+
+    data.comment_id = button.closest('.col-12').data('id');
+
+    $.ajax({
+        url: 'comment-rating/' + data.comment_id,
+        method: 'POST',
+        data: data,
+        success: function () {
+            var text = parseInt(button.closest('.row').find('.rating-count').text()) + data.rating;
+            button.closest('.row').find('.rating-count').text(text);
+            button.closest('.col-auto').remove();
+
+        },
+    });
+});
 
 

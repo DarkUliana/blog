@@ -6,6 +6,7 @@ use App\Comment;
 use App\Post;
 use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -23,10 +24,11 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
 
         $comments = collect();
-
         $this->recursiveComments($post->comments->where('parent_id', null), $comments);
 
-        return view('post', compact('post', 'comments'));
+        $ratings = Auth::user() ? Auth::user()->ratings() : [];
+
+        return view('post', compact('post', 'comments', 'ratings'));
     }
 
     private function recursiveComments($comments, &$formattedComments, $level = 0) {

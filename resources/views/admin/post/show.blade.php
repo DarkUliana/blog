@@ -15,12 +15,15 @@
                                 Back
                             </button>
                         </a>
+                        @can('update-own-post', $post)
                         <a href="{{ url('/admin/post/' . $post->id . '/edit') }}" title="Edit Post">
                             <button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o"
                                                                       aria-hidden="true"></i> Edit
                             </button>
                         </a>
+                        @endcan
 
+                        @can('delete-own-post', $post)
                         <form method="POST" action="{{ url('admin/post' . '/' . $post->id) }}" accept-charset="UTF-8"
                               style="display:inline">
                             {{ method_field('DELETE') }}
@@ -31,6 +34,7 @@
                                 Delete
                             </button>
                         </form>
+                        @endcan
                         <br/>
                         <br/>
 

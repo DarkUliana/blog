@@ -47,9 +47,18 @@ class AuthorizationClass extends Authorization
 
         return $user->id == $comment->user_id;
     }
+
     public function deleteOwnComment($user, $comment)
     {
-//        dd($this->updateOwnComment($user, $comment, $permissions));
         return $this->updateOwnComment($user, $comment);
+    }
+
+    public function rateComment($user, $comment)
+    {
+        $comment = $this->getModel('App\Comment', $comment);
+
+        $ratings = $comment->ratings()->where('user_id', $user->id)->get();
+
+        return $comment->user_id != $user->id && $ratings->isEmpty();
     }
 }

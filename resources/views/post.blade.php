@@ -16,7 +16,11 @@
                 <div class="card mt-4">
                     <div class="card-header">Залишити коментар</div>
                     <div class="card-body">
-                        @include('create-comment')
+                        @can('create-comment')
+                            @include('create-comment')
+                        @else
+                            <h4>Увійди, щоб залишити коментар</h4>
+                        @endcan
                     </div>
                 </div>
 

@@ -42,14 +42,15 @@
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->email }}</td>
                                         <td>
-                                            <form method="POST" action="{{ url('admin/user/' . $item->id) }}" accept-charset="UTF-8"
+                                            <form method="POST" action="{{ url('admin/user/' . $item->id) }}"
+                                                  accept-charset="UTF-8"
                                                   enctype="multipart/form-data">
                                                 {{ method_field('PATCH') }}
                                                 {{ csrf_field() }}
                                                 <select name="role" class="form-control">
-                                                    @foreach($roles as $role)
-                                                        <option value="{{ $role->id }}"
-                                                        {{ ($item->hasRole($role->name)) ? 'selected' : '' }}>{{ $role->name }}</option>
+                                                    @foreach($roles as $name => $role)
+                                                        <option value="{{ $name }}"
+                                                            {{ ($item->role == $name) ? 'selected' : '' }}>{{ $name }}</option>
                                                     @endforeach
                                                 </select>
                                             </form>
@@ -59,7 +60,8 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                            <div class="pagination-wrapper"> {!! $user->appends(['search' => Request::get('search')])->render() !!} </div>
+                            <div
+                                class="pagination-wrapper"> {!! $user->appends(['search' => Request::get('search')])->render() !!} </div>
                         </div>
 
                     </div>

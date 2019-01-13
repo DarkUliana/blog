@@ -18,3 +18,7 @@
     flex-shrink: 1;
     margin-left: 150px;
 }
+
+.rating-count:first-child {
+    margin-left: 15px;
+}

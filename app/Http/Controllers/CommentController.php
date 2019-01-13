@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use App\CommentRating;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class CommentController extends Controller
 {
     public function create(Request $request)
     {
+        $this->authorize('create', Comment::class);
+
         $this->validate($request, [
             'parent_id' => 'sometimes|integer|exists:comments,id',
             'post_id' => 'required|integer|exists:posts,id',
@@ -18,13 +22,14 @@ class CommentController extends Controller
         $parent = $request->parent_id;
         $post = collect();
         $post->id = $request->post_id;
-//        dd($post->id);
 
         return view('create-comment', compact('parent', 'post'));
     }
 
     public function store(Request $request)
     {
+        $this->authorize('create', Comment::class);
+
         $this->validate($request, [
             'text' => 'required|string|max:255',
             'post_id' => 'required|integer|exists:posts,id',
@@ -50,6 +55,9 @@ class CommentController extends Controller
 
         $comment = Comment::findOrFail($id);
 
+        $this->authorize('update', [Comment::class, $comment]);
+
+
         return view('edit-comment', compact('comment'));
     }
 
@@ -60,13 +68,21 @@ class CommentController extends Controller
             'id' => 'integer|exists:comments,id'
         ]);
 
-        Comment::where('id', $request->id)->update($request->input());
+        $comment = Comment::findOrFail($request->id);
+
+        $this->authorize('update', [Comment::class, $comment]);
+
+        $comment->update($request->input());
 
         return response('ok', 200);
     }
 
     public function destroy($id)
     {
+        $comment = Comment::findOrFail($id);
+
+        $this->authorize('delete', [Comment::class, $comment]);
+
         if (Comment::where('parent_id', $id)->count() == 0) {
 
             Comment::destroy($id);
@@ -74,5 +90,23 @@ class CommentController extends Controller
         }
 
         return response('Can`t delete a comment that has answers', 400);
+    }
+
+    public function rate(Request $request)
+    {
+        $this->authorize('create-comment');
+
+        $this->validate($request, [
+
+            'rating' => ['required', Rule::in([1, -1])],
+            'comment_id' => 'required|integer|exists:comments,id'
+        ]);
+
+        $data = $request->input();
+        $data['user_id'] = Auth::id();
+
+        CommentRating::create($data);
+
+        return response('ok', 200);
     }
 }

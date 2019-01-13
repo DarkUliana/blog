@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Classes\Authorization\AuthorizationClass;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
-use App\Role;
-use App\RoleUser;
 use App\User;
+use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\UnauthorizedException;
 
 class UserController extends Controller
 {
@@ -21,10 +19,12 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('update', User::class);
+
         $keyword = $request->get('search');
         $perPage = 25;
 
-        $roles = Role::all();
+        $roles = config('roles.roles');
 
         if (!empty($keyword)) {
             $user = User::where('name', 'LIKE', "%$keyword%")
@@ -45,16 +45,22 @@ class UserController extends Controller
      * @param  int  $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'role' => 'required|exists:roles,id'
-        ]);
+        $this->authorize('update', User::class);
 
-        $userRole = RoleUser::where('user_id', $id)->first();
-        $userRole->role_id = $request->role;
-        $userRole->save();
+        $this->validate($request, [
+            'role' => [
+                'required',
+                Rule::in(array_keys(config('roles.roles')))]
+        ]);
+        $user = User::findOrFail($id);
+        $user->role = $request->role;
+        $user->save();
 
         return redirect('admin/user')->with('flash_message', 'User updated!');
     }
