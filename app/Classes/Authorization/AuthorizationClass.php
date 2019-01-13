@@ -31,7 +31,7 @@ class AuthorizationClass extends Authorization
 
     public function updateOwnPost($user, $post)
     {
-        $post = $this->getModel('App\Post', $post);  // helper method for getting model
+        $post = $this->getModel('App\Post', $post);
 
         return $user->id == $post->user_id;
     }
@@ -43,7 +43,7 @@ class AuthorizationClass extends Authorization
 
     public function updateOwnComment($user, $comment)
     {
-        $comment = $this->getModel('App\Comment', $comment);  // helper method for getting model
+        $comment = $this->getModel('App\Comment', $comment);
 
         return $user->id == $comment->user_id;
     }

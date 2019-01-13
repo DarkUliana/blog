@@ -10,9 +10,8 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-
         $perPage = 6;
         $posts = Post::latest()->paginate($perPage);
 
